@@ -13,8 +13,8 @@ return new class extends Migration
     {
         Schema::table('users', function (Blueprint $table) {
             //
-            $table->string('last_name');
-            $table->string('user_name');
+            $table->string('last_name')->after('name');
+            $table->string('username')->after('last_name')->unique();
 
         });
     }
@@ -25,7 +25,9 @@ return new class extends Migration
     public function down(): void
     {
         Schema::table('users', function (Blueprint $table) {
-            //
+            $table->dropColumn('last-name');
+            $table->dropColumn('username');
+
         });
     }
 };
