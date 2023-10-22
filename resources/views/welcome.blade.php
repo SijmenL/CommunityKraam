@@ -3,19 +3,12 @@
 @section('content')
     <div class="container">
         <div class="row justify-content-center">
-            <div class="col-md-8">
-                <div class="card">
-                    <div class="card-header">{{ __('Welcome') }}</div>
-
-                    <div class="card-body">
-                        <h1>Welcome to List It!</h1>
-                        @auth
-                            <p>You are logged in, welcome!</p>
-                        @endauth
-
-                        @guest
-                            <p>To experience to full website, please log in or create an account.</p>
-                        @endguest
+            <div class="fullscreen-hero" style="background-image: linear-gradient(to bottom, rgba(0, 0, 0, 0.32), rgba(0, 0, 0, 0.03)),url({{ asset('img/hero-background.jpg') }})">
+                <div class="hero-content">
+                    <h1 class="display-1 text-light">Welcome to List It!</h1>
+                    <div class="hero-buttons ">
+                        <a class="btn btn-primary btn-lg" href="{{ route('login') }}">Log In</a>
+                        <a class="btn btn-secondary btn-lg" href="{{ route('register') }}">Create Account</a>
                     </div>
                 </div>
             </div>

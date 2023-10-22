@@ -4,6 +4,37 @@
     flex-direction: column;
 }
 
+body {
+    margin: 0;
+}
+
 footer {
     margin-top: auto;
+}
+
+.fullscreen-hero {
+    margin: 10px;
+    border-radius: 15px;
+    height: calc(95vh - 100px);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-size: cover;
+    background-position: center;
+}
+
+.hero-content {
+    display: flex;
+    flex-direction: column;
+    align-self: center;
+}
+
+.hero-content h1{
+    color: #FFFFFF;
+    text-shadow: #474747 3px 5px 2px;
+    font-weight: bolder;
+}
+
+.hero-buttons {
+    align-self: center;
 }
