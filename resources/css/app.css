@@ -29,6 +29,18 @@ footer {
     align-self: center;
 }
 
+.display-hero {
+    background-color: rgba(0, 0, 0, 0.34);
+    backdrop-filter: blur(2px);
+    border-radius: 15px;
+    align-items: center;
+    justify-content: space-around;
+    display: flex;
+    flex-direction: column;
+    max-width: 1000px;
+    min-height: 400px;
+}
+
 .hero-content h1{
     color: #FFFFFF;
     text-shadow: #474747 3px 5px 2px;
@@ -37,4 +49,76 @@ footer {
 
 .hero-buttons {
     align-self: center;
+}
+
+.switch {
+    position: relative;
+    display: inline-block;
+    width: 60px;
+    height: 34px;
+}
+
+.switch input {
+    opacity: 0;
+    width: 0;
+    height: 0;
+}
+
+.slider {
+    position: absolute;
+    cursor: pointer;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: #ccc;
+    -webkit-transition: .4s;
+    transition: .4s;
+}
+
+.slider:before {
+    position: absolute;
+    content: "";
+    height: 26px;
+    width: 26px;
+    left: 4px;
+    bottom: 4px;
+    background-color: white;
+    -webkit-transition: .4s;
+    transition: .4s;
+}
+
+input:checked + .slider {
+    background-color: #007bff;
+}
+
+input:focus + .slider {
+    box-shadow: 0 0 3px #007bff;
+}
+
+input:checked + .slider:before {
+    -webkit-transform: translateX(26px);
+    -ms-transform: translateX(26px);
+    transform: translateX(26px);
+}
+
+.slider.round {
+    border-radius: 34px;
+}
+
+.slider.round:before {
+    border-radius: 50%;
+}
+
+.owned-product {
+    display: block;
+}
+
+.custom-select {
+    position: relative;
+    width: 200px;
+}
+
+.button.selected {
+    background-color: #0056b3; /* Change to the selected button color */
 }

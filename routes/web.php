@@ -1,6 +1,10 @@
 <?php
 
+use App\Http\Controllers\CreateProductController;
+use App\Http\Controllers\DeleteProductController;
+use App\Http\Controllers\EditProductController;
 use App\Http\Controllers\HomeController;
+use App\Http\Controllers\ProductController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -21,7 +25,25 @@ Route::get('/', function () {
     }
     return view('welcome');
 });
-Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
+
+
+Route::get('/home', [HomeController::class, 'index'])->name('home');
+
+Route::get('/products', [ProductController::class, 'overview'])->name('products.list');
+
+
+Route::get('/product/show/{id}', [ProductController::class, 'show'])->name('product.show');
+
+Route::get('/product/create', [CreateProductController::class, 'view'])->name('product.create');
+Route::post('/product/create', [CreateProductController::class, 'store'])->name('product.create.store');
+
+Route::get('/product/edit/{id}', [EditProductController::class, 'show'])->name('product.edit');
+Route::post('/product/edit/{id}', [EditProductController::class, 'update'])->name('product.edit.store');
+
+Route::get('/product/delete/{id}', [DeleteProductController::class, 'delete'])->name('product.delete');
+
+
+Route::get('/list/create', [ProductController::class, 'create-list'])->name('list.create');
 
 
 Auth::routes();
