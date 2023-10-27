@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Catalog;
 use Illuminate\Contracts\Support\Renderable;
 use Illuminate\Http\Request;
 use App\Models\Product;
@@ -30,14 +31,13 @@ class HomeController extends Controller
     {
         $userId = Auth::id();
 
-        $search = '';
-
-
         $productCount = Product::where('product_owner', $userId)->count();
+        $listCount = Catalog::where('user_id', $userId)->count();
         $ownProducts = Product::where('product_owner', $userId)->get();
 
+        $ownLists = Catalog::where('user_id', $userId)->get();
 
-        return view('home', ['product_count' => $productCount, 'own_products' => $ownProducts]);
+        return view('home', ['product_count' => $productCount, 'list_count' => $listCount, 'own_products' => $ownProducts, 'own_lists' => $ownLists]);
     }
 
     public function update(Request $request)
@@ -69,13 +69,13 @@ class HomeController extends Controller
 
         $userId = Auth::id();
 
-
+        $listCount = Catalog::where('user_id', $userId)->count();
         $productCount = Product::where('product_owner', $userId)->count();
         $ownProducts = Product::where('product_owner', $userId)->get();
 
+        $ownLists = Catalog::where('user_id', $userId)->get();
 
-        // Redirect back to the list view
-        return view('home', ['product_count' => $productCount, 'own_products' => $ownProducts])->with('success', 'Product updated successfully.');
+        return view('home', ['product_count' => $productCount, 'list_count' => $listCount, 'own_products' => $ownProducts, 'own_lists' => $ownLists]);
     }
 
 

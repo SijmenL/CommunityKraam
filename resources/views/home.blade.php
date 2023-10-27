@@ -15,15 +15,52 @@
             @endif
 
             <h1>Welcome, {{ auth()->user()->username }}</h1>
-            <p>You have 0 lists, {{ $product_count }} products, and 0 favorites!</p>
+            <p>You have {{ $list_count }} lists and {{ $product_count }} products!</p>
             <div class="d-flex flex-row justify-content-between">
                 <h2>Your Lists</h2>
-                <a style="text-decoration: none" href="">+ Create new</a>
+                <a style="text-decoration: none" href="{{ route('list.create') }}">+ Create new</a>
             </div>
-            <div class="d-flex flex-row justify-content-between">
+                <p>To be able to create a list, you need to have at least two products.</p>
+                @if($list_count > 0)
+                <table class="table table-striped">
+                    <thead class="thead-dark table-bordered table-hover">
+                    <tr>
+                        <th scope="col">#</th>
+                        <th scope="col">Name</th>
+                        <th scope="col">Description</th>
+                        <th scope="col">Options</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+
+                    @foreach ($own_lists as $list)
+                        <tr id="{{ $list->id }}">
+                            <th>{{ $list->id }}</th>
+                            <th>{{ $list->name }}</th>
+                            <th>{{ $list->description }}</th>
+                            <th>
+                                <a href="{{ route('list.view', ['id' => $list->id]) }}"
+                                   class="btn btn-secondary">View list</a>
+                                <a href="{{ route('list.edit', ['id' => $list->id]) }}"
+                                   class="btn btn-outline-warning">Edit</a>
+                                <a class="delete-button btn btn-outline-danger"
+                                   data-id="{{ $list->id }}" data-link="{{ route('list.delete', $list->id) }}">Delete</a>
+                            </th>
+                        </tr>
+                    @endforeach
+                    </tbody>
+                </table>
+                @else
+                    <div class="alert alert-warning" role="alert">
+                        You have no lists, try creating one!
+                    </div>
+
+                @endif
+            <div class="d-flex flex-row justify-content-between mt-5">
                 <h2>Your Products</h2>
                 <a style="text-decoration: none" href="{{ route('product.create') }}">+ Create new</a>
             </div>
+                @if($product_count > 0)
             <div class="overflow-scroll" style="overflow: scroll; max-width: 100vw">
                 <table class="table table-striped">
                     <thead class="thead-dark table-bordered table-hover">
@@ -56,7 +93,7 @@
                                 </p>
                             </td>
                             <td>
-                                <a href=""
+                                <a href="{{ route('product.addtolist', $own_product->id) }}"
                                    class="btn btn-secondary">Add to list</a>
                                 <a href="{{ route('product.show', ['id' => $own_product->id]) }}"
                                    class="btn btn-outline-success">View
@@ -64,7 +101,7 @@
                                 <a href="{{ route('product.edit', ['id' => $own_product->id]) }}"
                                    class="btn btn-outline-warning">Edit</a>
                                 <a class="delete-button btn btn-outline-danger"
-                                   data-id="{{ $own_product->id }}">Delete</a>
+                                   data-id="{{ $own_product->id }}" data-link="{{ route('product.delete', $own_product->id) }}">Delete</a>
                                 <form method="POST" action="{{ route('home.updatePrivateState') }}">
                                     @csrf
                                     <div class="d-flex flex-row gap-2  align-items-center mt-2">
@@ -85,6 +122,11 @@
                     </tbody>
                 </table>
             </div>
+                @else
+                    <div class="alert alert-warning" role="alert">
+                       You have no products.
+                    </div>
+                @endif
         </div>
     </div>
 @endsection

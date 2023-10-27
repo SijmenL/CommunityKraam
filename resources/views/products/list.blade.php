@@ -5,6 +5,16 @@
     <div class="container">
         <div class="row justify-content-center p-4">
             <h1>All products</h1>
+            @if(Session::has('error'))
+                <div class="alert alert-danger" role="alert">
+                    {{ session('error') }}
+                </div>
+            @endif
+            @if(Session::has('success'))
+                <div class="alert alert-success" role="alert">
+                    {{ session('success') }}
+                </div>
+            @endif
 
             <div class="mb-5">
                 <div class="d-flex align-items-center gap-2 flex-wrap">
@@ -91,7 +101,8 @@
                                     @endforeach
                                 </p>
                                 <p class="card-text">{{ $product->description }}</p>
-                                <a class="btn btn-secondary">Add to list</a>
+                                <a href="{{ route('product.addtolist', $product->id) }}"
+                                   class="btn btn-secondary">Add to list</a>
                                 <a href="{{ route('product.show', ['id' => $product->id]) }}"
                                    class="btn btn-outline-success">View
                                     product</a>

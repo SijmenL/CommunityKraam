@@ -14,6 +14,7 @@ class CreateProductController extends Controller
     public function view()
     {
         $tags = Tag::all(); // Retrieve tags from the database
+
         return view('products.create', compact('tags'));
     }
 
@@ -53,10 +54,10 @@ class CreateProductController extends Controller
                 $product->tags()->attach($request->tags);
             }
 
-            return redirect('/home')->with('success', 'Data added successfully!');
+            return redirect('/home')->with('success', 'Product added successfully!');
         } else {
             // File move failed
-            return redirect('/home')->with('error', 'Failed to upload the file.');
+            return redirect('/home')->with('error', 'Failed to upload the image.');
         }
     }
 

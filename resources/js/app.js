@@ -26,7 +26,8 @@ function deleteButtons() {
             e.preventDefault();
             allButtons[i].innerHTML = 'Sure?';
             let buttonID = allButtons[i].getAttribute('data-id');
-            allButtons[i].setAttribute('href', `/product/delete/${buttonID}`);
+
+            allButtons[i].setAttribute('href', `${allButtons[i].dataset.link}`);
             allButtons[i].setAttribute('data-sure', 'true');
             allButtons[i].classList.add('btn-danger')
             allButtons[i].classList.remove('btn-outline-danger')

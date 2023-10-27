@@ -12,4 +12,16 @@ class Product extends Model
     public function tags()
     {
         return $this->belongsToMany(Tag::class);
-    }}
+    }
+
+    public function catalogs()
+    {
+        return $this->belongsToMany(Catalog::class);
+    }
+
+    public function owner()
+    {
+        return $this->belongsTo(User::class, 'product_owner', 'id');
+    }
+
+}

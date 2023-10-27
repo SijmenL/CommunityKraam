@@ -55,15 +55,22 @@
                         </li>
                     @endif
                 @else
+                    @if(auth()->user()->isActive())
                     <div class="d-flex flex-row">
+                        <li class="nav-item ">
+                            <a class="nav-link" href="{{ route('home') }}">{{ __('Home') }}</a>
+                        </li>
+                    @if(auth()->user()->isAdmin())
+                            <li class="nav-item ">
+                                <a class="nav-link" href="{{ route('dashboard') }}">{{ __('Dashboard') }}</a>
+                            </li>
+                        @endif
                         <li class="nav-item ">
                             <a class="nav-link" href="{{ route('products.list') }}">{{ __('Products') }}</a>
                         </li>
-                        <li class="nav-item">
-                            <a class="nav-link" href="{{ route('list.create') }}">{{ __('Lists') }}</a>
-                        </li>
                     </div>
 
+                    @endif
 
                     <li class="nav-item dropdown">
                         <a style="margin-right: 20px" id="navbarDropdown" class="nav-link dropdown-toggle" href="#"
@@ -73,12 +80,13 @@
                         </a>
 
                         <div class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdown">
+                            <a class="dropdown-item" href="{{ route('user.edit', Auth::id()) }}">Edit account</a>
+
                             <a class="dropdown-item" href="{{ route('logout') }}"
                                onclick="event.preventDefault();
                                                      document.getElementById('logout-form').submit();">
                                 {{ __('Logout') }}
                             </a>
-
                             <form id="logout-form" action="{{ route('logout') }}" method="POST" class="d-none">
                                 @csrf
                             </form>
