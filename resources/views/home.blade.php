@@ -8,46 +8,82 @@
                     {{ session('error') }}
                 </div>
             @endif
-                @if(Session::has('succes'))
-                    <div class="alert alert-success" role="alert">
-                        {{ session('succes') }}
-                    </div>
-                @endif
+            @if(Session::has('success'))
+                <div class="alert alert-success" role="alert">
+                    {{ session('success') }}
+                </div>
+            @endif
 
             <h1>Welcome, {{ auth()->user()->username }}</h1>
-            <p>You have 0 lists, {{ $product_count }} products and 0 favourites!</p>
-            <h2>Your Lists</h2>
-            <h2>Your Products</h2>
-            <div class="flex-wrap d-flex justify-content-center flex-row justify-content-center" style="gap: 15px;">
-                @foreach ($own_products as $own_product)
-                    <div class="card" style="width: 18rem;">
-                        <div class="" style="height: 200px; overflow: hidden">
-                            <img class="card-img-top" style="object-fit: contain"
-                                 src="{{ asset('product_images/' . $own_product['image'])}}"
-                                 alt="Card image cap">
-                        </div>
-                        <div class="card-body">
-                            <h2 class="card-title d-flex align-items-center gap-2">
-                                {{ $own_product->title }}
-                                    @if ($own_product->price == 0)
-                                    <span class="badge bg-info" style="font-size: small">Free</span>
-                                    @else
-                                    <span class="badge bg-secondary" style="font-size: small">{{ $own_product->valuta . $own_product->price }}</span>
-                                    @endif
-                            </h2>
-                            <p class="card-text">{{ $own_product->description }}</p>
-                            <a href="{{ route('product.show', ['id' => $own_product->id]) }}" class="btn btn-success">View
-                                product</a>
-                            <a href="{{ route('product.edit', ['id' => $own_product->id]) }}"
-                               class="btn btn-outline-warning">Edit</a>
-                            <a class="delete-button btn btn-outline-danger" data-id="{{ $own_product->id }}">Delete</a>
-
-                        </div>
-                    </div>
-                @endforeach
+            <p>You have 0 lists, {{ $product_count }} products, and 0 favorites!</p>
+            <div class="d-flex flex-row justify-content-between">
+                <h2>Your Lists</h2>
+                <a style="text-decoration: none" href="">+ Create new</a>
             </div>
-            <div class="p-1 d-flex justify-content-center">
-                <a class="btn btn-primary mt-5" href="{{ route('products.list') }}">View All Products</a>
+            <div class="d-flex flex-row justify-content-between">
+                <h2>Your Products</h2>
+                <a style="text-decoration: none" href="{{ route('product.create') }}">+ Create new</a>
+            </div>
+            <div class="overflow-scroll" style="overflow: scroll; max-width: 100vw">
+                <table class="table table-striped">
+                    <thead class="thead-dark table-bordered table-hover">
+                    <tr>
+                        <th scope="col">#</th>
+                        <th scope="col">Image</th>
+                        <th scope="col">Title</th>
+                        <th scope="col">Description</th>
+                        <th scope="col">Tags</th>
+                        <th scope="col">Options</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+
+                    @foreach ($own_products as $own_product)
+                        <tr id="{{ $own_product->id }}">
+                            <th>{{ $own_product->id }}</th>
+                            <th><img class="card-img-top p-1"
+                                     style="object-fit: cover; aspect-ratio: 1/1; height: 50%; min-width: 50px; max-width: 150px; border-radius: 15px;"
+                                     src="{{ asset('product_images/' . $own_product['image'])}}"
+                                     alt="Card image cap"></th>
+
+                            <td>{{ $own_product->title }}</td>
+                            <td>{{ $own_product->description }}</td>
+                            <td>
+                                <p class="card-header-pills d-flex flex-row gap-1 overflow-scroll">
+                                    @foreach ($own_product->tags as $tag)
+                                        <span class="badge bg-dark-subtle">{{ $tag->name }}</span>
+                                    @endforeach
+                                </p>
+                            </td>
+                            <td>
+                                <a href=""
+                                   class="btn btn-secondary">Add to list</a>
+                                <a href="{{ route('product.show', ['id' => $own_product->id]) }}"
+                                   class="btn btn-outline-success">View
+                                    product</a>
+                                <a href="{{ route('product.edit', ['id' => $own_product->id]) }}"
+                                   class="btn btn-outline-warning">Edit</a>
+                                <a class="delete-button btn btn-outline-danger"
+                                   data-id="{{ $own_product->id }}">Delete</a>
+                                <form method="POST" action="{{ route('home.updatePrivateState') }}">
+                                    @csrf
+                                    <div class="d-flex flex-row gap-2  align-items-center mt-2">
+                                        <label for="private-{{ $own_product->id }}">Private</label>
+                                        <input type="hidden" name="id" value="{{ $own_product->id }}">
+                                        <label class="switch">
+                                            <input onchange="this.form.submit()" id="private-{{ $own_product->id }}"
+                                                   type="checkbox"
+                                                   name="private" {{ $own_product->private ? 'checked' : '' }}>
+                                            <span class="slider round"></span>
+
+                                        </label>
+                                    </div>
+                                </form>
+                            </td>
+                        </tr>
+                    @endforeach
+                    </tbody>
+                </table>
             </div>
         </div>
     </div>

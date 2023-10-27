@@ -15,7 +15,7 @@
     <link rel="dns-prefetch" href="//fonts.bunny.net">
     <link href="https://fonts.bunny.net/css?family=Nunito" rel="stylesheet">
 
-
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" />
     <!-- Scripts -->
     @vite(['resources/sass/app.scss', 'resources/js/app.js', 'resources/css/app.css'])
 
@@ -55,16 +55,19 @@
                         </li>
                     @endif
                 @else
-                    <li class="nav-item">
-                        <a class="nav-link" href="{{ route('product.create') }}">{{ __('Add Product') }}</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="{{ route('list.create') }}">{{ __('Create List   ') }}</a>
-                    </li>
+                    <div class="d-flex flex-row">
+                        <li class="nav-item ">
+                            <a class="nav-link" href="{{ route('products.list') }}">{{ __('Products') }}</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="{{ route('list.create') }}">{{ __('Lists') }}</a>
+                        </li>
+                    </div>
 
 
                     <li class="nav-item dropdown">
-                        <a style="margin-right: 20px" id="navbarDropdown" class="nav-link dropdown-toggle" href="#" role="button"
+                        <a style="margin-right: 20px" id="navbarDropdown" class="nav-link dropdown-toggle" href="#"
+                           role="button"
                            data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false" v-pre>
                             {{ Auth::user()->username }}
                         </a>

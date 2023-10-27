@@ -30,11 +30,53 @@ class HomeController extends Controller
     {
         $userId = Auth::id();
 
+        $search = '';
+
+
         $productCount = Product::where('product_owner', $userId)->count();
         $ownProducts = Product::where('product_owner', $userId)->get();
 
-        $product = Product::where('product_owner', '!=', $userId)->inRandomOrder()->take(4)->get();
 
-        return view('home', ['products' => $product, 'product_count' => $productCount, 'own_products' => $ownProducts]);
+        return view('home', ['product_count' => $productCount, 'own_products' => $ownProducts]);
     }
+
+    public function update(Request $request)
+    {
+        $request->validate([
+            'id' => 'required|integer',
+            'private' => 'string',
+        ]);
+
+        $private = $request->private;
+
+        if ($private === 'on') {
+            $private = 1;
+        } else {
+            $private = 0;
+        }
+
+        // Find the product by ID
+        $productToUpdate = Product::find($request->id);
+
+        $this->authorize('view', $productToUpdate);
+
+
+        // Update the private state based on the request
+        $productToUpdate->private = $private;
+
+        // Save the changes
+        $productToUpdate->save();
+
+        $userId = Auth::id();
+
+
+        $productCount = Product::where('product_owner', $userId)->count();
+        $ownProducts = Product::where('product_owner', $userId)->get();
+
+
+        // Redirect back to the list view
+        return view('home', ['product_count' => $productCount, 'own_products' => $ownProducts])->with('success', 'Product updated successfully.');
+    }
+
+
 }

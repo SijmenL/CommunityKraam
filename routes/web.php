@@ -28,8 +28,10 @@ Route::get('/', function () {
 
 
 Route::get('/home', [HomeController::class, 'index'])->name('home');
+Route::post('/home', [HomeController::class, 'update'])->name('home.updatePrivateState');
 
 Route::get('/products', [ProductController::class, 'overview'])->name('products.list');
+Route::post('/products', [ProductController::class, 'filterProducts'])->name('products.filter');
 
 
 Route::get('/product/show/{id}', [ProductController::class, 'show'])->name('product.show');

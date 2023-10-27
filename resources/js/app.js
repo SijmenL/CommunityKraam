@@ -1,8 +1,6 @@
 import './bootstrap';
 window.addEventListener('load', init);
 
-let viewOwnProducts;
-
 let select;
 let buttonContainer;
 
@@ -13,12 +11,6 @@ function init() {
         select = document.getElementById('select-tags');
         buttonContainer = document.getElementById('button-container');
         editTags();
-    }
-
-
-    if (document.getElementById('own-switch')) {
-        viewOwnProducts = document.getElementById('own-switch')
-        viewOwnProducts.addEventListener('click', hideOwnProducts)
     }
 }
 
@@ -52,23 +44,11 @@ function deleteButtons() {
     }
 }
 
-function hideOwnProducts(e) {
-    const ownProducts = document.querySelectorAll('.owned-product');
-
-    if (this.checked) {
-        ownProducts.forEach(product => {
-            product.style.display = 'block';
-        });
-    } else {
-        ownProducts.forEach(product => {
-            product.style.display = 'none';
-        });
-    }}
-
 // Create buttons for each option
 function editTags() {
     select.querySelectorAll('option').forEach(option => {
         const button = document.createElement('p');
+        const autoSubmit = document.getElementById("auto-submit");
         button.textContent = option.textContent;
         button.classList.add('btn');
         button.classList.add('btn-light');
@@ -88,10 +68,12 @@ function editTags() {
                 option.selected = false;
                 button.classList.remove('btn-info');
                 button.classList.add('btn-light');
+                autoSubmit.submit();
             } else {
                 option.selected = true;
                 button.classList.add('btn-info');
                 button.classList.remove('btn-light');
+                autoSubmit.submit();
             }
         });
 

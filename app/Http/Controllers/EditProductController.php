@@ -38,6 +38,8 @@ class EditProductController extends Controller
         // Find the product by ID
         $product = Product::find($id);
 
+        $this->authorize('view', $product);
+
         if (!$product) {
             return redirect()->back()->with('error', 'Product not found.');
         }
@@ -48,6 +50,7 @@ class EditProductController extends Controller
         $product->description = $request->input('description');
         $product->price = $request->input('price');
         $product->valuta = $request->input('valuta');
+        $product->private = 0;
 
         // Handle image update
         if ($request->hasFile('image')) {
@@ -62,6 +65,6 @@ class EditProductController extends Controller
         // Sync the tags with the product
         $product->tags()->sync($request->input('tags'));
 
-        return redirect()->route('product.edit', ['id' => $product->id])->with('success', 'Product updated successfully!');
+        return redirect()->route('home')->with('success', 'Product updated successfully!');
     }
 }

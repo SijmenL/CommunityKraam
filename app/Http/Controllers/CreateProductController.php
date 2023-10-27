@@ -40,6 +40,9 @@ class CreateProductController extends Controller
             // Add the product_owner field with the current user's ID
             $validatedData['product_owner'] = Auth::id();
 
+            $validatedData['private'] = 0;
+
+
             $validatedData['image'] = $newPictureName;
 
             // Create the product
@@ -50,10 +53,10 @@ class CreateProductController extends Controller
                 $product->tags()->attach($request->tags);
             }
 
-            return redirect('/product/create')->with('success', 'Data added successfully!');
+            return redirect('/home')->with('success', 'Data added successfully!');
         } else {
             // File move failed
-            return redirect('/product/create')->with('error', 'Failed to upload the file.');
+            return redirect('/home')->with('error', 'Failed to upload the file.');
         }
     }
 
